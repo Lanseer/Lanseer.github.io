@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="需求项目核心架构为ionic+cordova+angular，实现某种摄像头可在移动端实时查看监控，摄像头支持rtsp协议，但不能推流。 方案核心rtsp协议推流至阿里云视频直播，移动端采用flv.js，在网页端播放rtmp协议的flv格式视频流。 具体方案1.    测试时使用ffmpeg推流至阿里云下载ffmpeg，解压后在bin文件下进入cmd命令窗口，使用命令：ffmpeg –f rtsp">
+<meta name="description" content="需求在手机端和PC端，实现某种摄像头可在移动端实时查看监控，摄像头支持rtsp协议，但不能推流。 方案核心rtsp协议推流至阿里云视频直播，移动端采用flv.js，在网页端播放rtmp协议的flv格式视频流。 具体方案1.    测试时使用ffmpeg推流至阿里云下载ffmpeg，解压后在bin文件下进入cmd命令窗口，使用命令：ffmpeg –f rtsp –rtsp_transport tcp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="web端视频播放解决方案">
 <meta property="og:url" content="http://lanseer.com/2019/07/14/videoplay/index.html">
 <meta property="og:site_name" content="Mixed Food">
-<meta property="og:description" content="需求项目核心架构为ionic+cordova+angular，实现某种摄像头可在移动端实时查看监控，摄像头支持rtsp协议，但不能推流。 方案核心rtsp协议推流至阿里云视频直播，移动端采用flv.js，在网页端播放rtmp协议的flv格式视频流。 具体方案1.    测试时使用ffmpeg推流至阿里云下载ffmpeg，解压后在bin文件下进入cmd命令窗口，使用命令：ffmpeg –f rtsp">
+<meta property="og:description" content="需求在手机端和PC端，实现某种摄像头可在移动端实时查看监控，摄像头支持rtsp协议，但不能推流。 方案核心rtsp协议推流至阿里云视频直播，移动端采用flv.js，在网页端播放rtmp协议的flv格式视频流。 具体方案1.    测试时使用ffmpeg推流至阿里云下载ffmpeg，解压后在bin文件下进入cmd命令窗口，使用命令：ffmpeg –f rtsp –rtsp_transport tcp">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-07-14T06:42:37.000Z">
+<meta property="og:updated_time" content="2019-07-18T12:48:44.488Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="web端视频播放解决方案">
-<meta name="twitter:description" content="需求项目核心架构为ionic+cordova+angular，实现某种摄像头可在移动端实时查看监控，摄像头支持rtsp协议，但不能推流。 方案核心rtsp协议推流至阿里云视频直播，移动端采用flv.js，在网页端播放rtmp协议的flv格式视频流。 具体方案1.    测试时使用ffmpeg推流至阿里云下载ffmpeg，解压后在bin文件下进入cmd命令窗口，使用命令：ffmpeg –f rtsp">
+<meta name="twitter:description" content="需求在手机端和PC端，实现某种摄像头可在移动端实时查看监控，摄像头支持rtsp协议，但不能推流。 方案核心rtsp协议推流至阿里云视频直播，移动端采用flv.js，在网页端播放rtmp协议的flv格式视频流。 具体方案1.    测试时使用ffmpeg推流至阿里云下载ffmpeg，解压后在bin文件下进入cmd命令窗口，使用命令：ffmpeg –f rtsp –rtsp_transport tcp">
 
 
 
@@ -341,7 +341,7 @@
       
 
       
-        <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>项目核心架构为ionic+cordova+angular，实现某种摄像头可在移动端实时查看监控，摄像头支持rtsp协议，但不能推流。</p>
+        <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>在手机端和PC端，实现某种摄像头可在移动端实时查看监控，摄像头支持rtsp协议，但不能推流。</p>
 <h2 id="方案核心"><a href="#方案核心" class="headerlink" title="方案核心"></a>方案核心</h2><p>rtsp协议推流至阿里云视频直播，移动端采用flv.js，在网页端播放rtmp协议的flv格式视频流。</p>
 <h2 id="具体方案"><a href="#具体方案" class="headerlink" title="具体方案"></a>具体方案</h2><h3 id="1-测试时使用ffmpeg推流至阿里云"><a href="#1-测试时使用ffmpeg推流至阿里云" class="headerlink" title="1.    测试时使用ffmpeg推流至阿里云"></a>1.    测试时使用ffmpeg推流至阿里云</h3><p>下载ffmpeg，解压后在bin文件下进入cmd命令窗口，使用命令：ffmpeg –f rtsp –rtsp_transport tcp –i rtsp://admin:<a href="mailto:Admin123@172.18.8.41" target="_blank" rel="noopener">Admin123@172.18.8.41</a>:554/Streaming/Channels/101 –vcodec h264 –acodec aac –f flv –crf 34 –r 25 –s 1280x720 –an “rtmp://video-center.alivecdn.com/xylg/camera7?vhost=live-play.2inno.cn” 推流</p>
 <h3 id="2-阿里云视频直播，配置推流及拉流域名，注意在域名设置里打开跨域设置-详细配置阿里云视频直播后台管理"><a href="#2-阿里云视频直播，配置推流及拉流域名，注意在域名设置里打开跨域设置-详细配置阿里云视频直播后台管理" class="headerlink" title="2.    阿里云视频直播，配置推流及拉流域名，注意在域名设置里打开跨域设置,详细配置阿里云视频直播后台管理"></a>2.    阿里云视频直播，配置推流及拉流域名，注意在域名设置里打开跨域设置,详细配置阿里云视频直播后台管理</h3><h3 id="3-项目中配置"><a href="#3-项目中配置" class="headerlink" title="3. 项目中配置"></a>3. 项目中配置</h3><p>配置flv.js文件，使用命令&gt;npm install –save flv.js，在ts文件中引入文件，import * as flvjs from ‘flv.js’，在html中加入video标签，html具体代码：</p>
