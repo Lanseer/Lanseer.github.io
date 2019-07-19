@@ -249,6 +249,172 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://lanseer.com/2019/07/19/浅谈JavaScript的对象拷贝/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lanseer">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/mnls.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mixed Food">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/19/浅谈JavaScript的对象拷贝/" itemprop="url">浅谈JavaScript的对象拷贝</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-19T21:11:56+08:00">
+                2019-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在实际开发中、面试中，我们经常会面对一个js的基础问题： 对象的拷贝。下面我们就谈一谈这个老生常谈的问题，以避免尴尬和开发老司机翻车😄。</p>
+<p>下面是一段对象拷贝的测试，控制台的打印结果是什么呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个问题</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line">b = a;</span><br><span class="line">a = <span class="number">3</span>;</span><br><span class="line"><span class="built_in">console</span>.log(b);</span><br><span class="line"></span><br><span class="line"><span class="comment">//第二个问题</span></span><br><span class="line"><span class="keyword">var</span> student = &#123;<span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">'xiaoming'</span>, <span class="attr">card</span>: &#123;<span class="attr">cardId</span>: <span class="number">123</span>, <span class="attr">cardName</span>: <span class="string">'IC'</span>&#125;&#125;;</span><br><span class="line"><span class="keyword">var</span> stu1 = <span class="built_in">Object</span>.assign(&#123;&#125;, student);</span><br><span class="line">stu1.name = <span class="string">'cxk'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(student.name);</span><br><span class="line">stu1.card.cardName = <span class="string">'bank'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(student.card.cardName);</span><br><span class="line"></span><br><span class="line"><span class="comment">//第三个问题</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  date: <span class="keyword">new</span> <span class="built_in">Date</span>(),</span><br><span class="line">  fn: <span class="function"><span class="params">()</span> =&gt;</span> &#123;<span class="built_in">console</span>.log(<span class="string">'cxk'</span>)&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> obj1 = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(obj));</span><br><span class="line">obj.a = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj1.a);</span><br><span class="line"><span class="built_in">console</span>.log(obj1.fn);</span><br></pre></td></tr></table></figure>
+
+<p>好了，考试时间到了，答案是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span></span><br><span class="line">xiaoming</span><br><span class="line">bank</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="literal">undefined</span></span><br></pre></td></tr></table></figure>
+
+<p>请回答全部正确的同学去玩王者荣耀😄<br>那么，我们来逐一聊聊这些问题。</p>
+<p><font color="#0000FF">第一个问题</font><br>很多不是很了解的同学会说，b=a,不是浅拷贝了嘛，肯定跟着变啊，然鹅在JavaScript中，数据类型不同，复制的意义也不同，数据类型分为：</p>
+<p>基本数据类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">null</span></span><br><span class="line"><span class="literal">undefined</span></span><br><span class="line">number</span><br><span class="line">boolean</span><br><span class="line">string</span><br><span class="line">symbol</span><br></pre></td></tr></table></figure>
+
+<p>引用数据类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span></span><br><span class="line"><span class="function"><span class="keyword">function</span></span></span><br><span class="line"><span class="function"><span class="title">Date</span></span></span><br><span class="line"><span class="function"><span class="title">RegExp</span></span></span><br><span class="line"><span class="function"><span class="title">array</span></span></span><br></pre></td></tr></table></figure>
+
+<p>其中基本数据类型的值是存放在栈（stack）中的，是不可变的，比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> string = <span class="string">'ABC'</span>;</span><br><span class="line">string.toLowerCase();</span><br><span class="line"><span class="built_in">console</span>.log(string); <span class="comment">// ABC</span></span><br></pre></td></tr></table></figure>
+
+<p>并且在值的比较中，只是对变量的值进行比较，并不会比较引用和类型。</p>
+<p><font color="#0000FF">第二个问题</font><br>先看下ES6中对象扩展方法的解释:　Object.assign方法用于对象的合并，将源对象（source）的所有可枚举属性，复制到目标对象（target）。<br>是不是看的一脸懵逼，没错，在下也是，但是看例子似乎也是一脸懵逼啊，为啥有的值变了有的却没变呢？来来，慢慢分析分析。</p>
+<p>首先看下student对象的组成，结合上面我们说的数据类型它是由基本数据类型和引用数据类型组成的，根据打印结果来看，基本数据类型的值没变，引用数据类型的值变了，这是不是意味着：<br>如果Object.assign的数据涞源只有基本数据类型，那它就是一个深拷贝方法；<br>如果数据涞源只有引用类型，那它就是浅拷贝方法；<br>如果同时都有这两种数据类型，那它既是浅拷贝又是深拷贝。</p>
+<p>其实对于Object.assign到底是浅拷贝还是深拷贝有很多说法，本人在结合实际例子和MDN的官方解释后，认为：Object.assign拷贝的只是对象的属性值而不是引用值，如果源对象的属性值是对象的引用，那么拷贝的也只是对象的引用值，所以对于引用类型数据无法实现深拷贝。大家也可以实际试试，说不定有自己独到的见解。</p>
+<p><font color="#0000FF">第三个问题</font><br>JSON提供了Object和String之间的转换方法parse和stringify，而且parse方法是对引用值的拷贝，是深拷贝，所以转化前后的对象之间互不影响。<br>但是例子中为什么没有实现对function的拷贝呢？<br>原来，JSON的这个方法并不是对所有引用类型的数据都能实现拷贝的，比如函数、Date、Reg等。那么是不是就没有办法对含有这些数据类型的对象进行深拷贝了呢？答案是绝对可以，具体请参考大神的git源码<a href="'https://github.com/lodash/lodash/blob/master/.internal/Stack.js?1528957393114'">lodash</a>。</p>
+<p><font color="#0000FF">总结</font></p>
+<p>其实吧，我觉得拷贝问题也不是那么难～～～<br>难的是，平时没有那么多时间细细研究，刨根问底啊，对于一些简单的方法和新语法，在使用中，最好是知其然还要知其所以然，才能实现头发渐渐稀疏的梦想😄😄😄</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://lanseer.com/2019/07/14/videoplay/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -342,27 +508,26 @@
       
         
           
-            <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>在手机端和PC端，实现某种摄像头可在移动端实时查看监控，摄像头支持rtsp协议，但不能推流。</p>
-<h2 id="方案核心"><a href="#方案核心" class="headerlink" title="方案核心"></a>方案核心</h2><p>rtsp协议推流至阿里云视频直播，移动端采用flv.js，在网页端播放rtmp协议的flv格式视频流。</p>
-<h2 id="具体方案"><a href="#具体方案" class="headerlink" title="具体方案"></a>具体方案</h2><h3 id="1-测试时使用ffmpeg推流至阿里云"><a href="#1-测试时使用ffmpeg推流至阿里云" class="headerlink" title="1.    测试时使用ffmpeg推流至阿里云"></a>1.    测试时使用ffmpeg推流至阿里云</h3><p>下载ffmpeg，解压后在bin文件下进入cmd命令窗口，使用命令：ffmpeg –f rtsp –rtsp_transport tcp –i rtsp://admin:<a href="mailto:Admin123@172.18.8.41" target="_blank" rel="noopener">Admin123@172.18.8.41</a>:554/Streaming/Channels/101 –vcodec h264 –acodec aac –f flv –crf 34 –r 25 –s 1280x720 –an “rtmp://video-center.alivecdn.com/xylg/camera7?vhost=live-play.2inno.cn” 推流</p>
-<h3 id="2-阿里云视频直播，配置推流及拉流域名，注意在域名设置里打开跨域设置-详细配置阿里云视频直播后台管理"><a href="#2-阿里云视频直播，配置推流及拉流域名，注意在域名设置里打开跨域设置-详细配置阿里云视频直播后台管理" class="headerlink" title="2.    阿里云视频直播，配置推流及拉流域名，注意在域名设置里打开跨域设置,详细配置阿里云视频直播后台管理"></a>2.    阿里云视频直播，配置推流及拉流域名，注意在域名设置里打开跨域设置,详细配置阿里云视频直播后台管理</h3><h3 id="3-项目中配置"><a href="#3-项目中配置" class="headerlink" title="3. 项目中配置"></a>3. 项目中配置</h3><p>配置flv.js文件，使用命令&gt;npm install –save flv.js，在ts文件中引入文件，import * as flvjs from ‘flv.js’，在html中加入video标签，html具体代码：</p>
+            <p>在手机端和PC端，实现某种摄像头可在移动端实时查看监控，摄像头支持rtsp协议，本身不自带推流功能。<br>可使用ffmpeg 推流至阿里云视频直播，然后移动端采用flv.js，在网页端播放rtmp协议的flv格式视频流或者使用videogular2实现m3u8监控视频文件播放。下面是具体方法。</p>
+<h4 id="1-测试时使用ffmpeg推流至阿里云"><a href="#1-测试时使用ffmpeg推流至阿里云" class="headerlink" title="1.    测试时使用ffmpeg推流至阿里云"></a>1.    测试时使用ffmpeg推流至阿里云</h4><p>下载ffmpeg，解压后在bin文件下进入cmd命令窗口，使用命令：ffmpeg –f rtsp –rtsp_transport tcp –i rtsp://xxxx –vcodec h264 –acodec aac –f flv –crf 34 –r 25 –s 1280x720 –an “rtmp://xxxx” 推流</p>
+<h4 id="2-阿里云视频直播，配置推流及拉流域名，注意在域名设置里打开跨域设置-详细配置阿里云视频直播后台管理"><a href="#2-阿里云视频直播，配置推流及拉流域名，注意在域名设置里打开跨域设置-详细配置阿里云视频直播后台管理" class="headerlink" title="2.    阿里云视频直播，配置推流及拉流域名，注意在域名设置里打开跨域设置,详细配置阿里云视频直播后台管理"></a>2.    阿里云视频直播，配置推流及拉流域名，注意在域名设置里打开跨域设置,详细配置阿里云视频直播后台管理</h4><h4 id="3-项目中配置"><a href="#3-项目中配置" class="headerlink" title="3. 项目中配置"></a>3. 项目中配置</h4><p>配置flv.js文件，使用命令&gt;npm install –save flv.js，在ts文件中引入文件，import * as flvjs from ‘flv.js’，在html中加入video标签，html具体代码：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ion-header</span>&gt;</span></span><br><span class="line">    实时监控影像</span><br><span class="line"><span class="tag">&lt;/<span class="name">ion-header</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">ion-content</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">video</span> #<span class="attr">videoelement</span> <span class="attr">id</span>=<span class="string">"videoElement"</span> <span class="attr">controls</span>=<span class="string">"controls"</span> <span class="attr">x5-video-player-fullscreen</span>=<span class="string">"true"</span> <span class="attr">x5-video-orientation</span>=<span class="string">"landscape"</span> <span class="attr">width</span>=<span class="string">"100%"</span> <span class="attr">height</span>=<span class="string">"100%"</span>&gt;</span><span class="tag">&lt;/<span class="name">video</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ion-content</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>ts具体代码为：</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;Component, OnInit, ViewChild&#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> flvjs <span class="keyword">from</span> <span class="string">'flv.js'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">var</span> cordova: <span class="built_in">any</span>;</span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-home'</span>,</span><br><span class="line">  templateUrl: <span class="string">'home.page.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'home.page.scss'</span>],</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> HomePage <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line"></span><br><span class="line">  player: <span class="built_in">any</span>;</span><br><span class="line">  flvPlayer: <span class="built_in">any</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ngOnInit(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.player = <span class="built_in">document</span>.getElementById(<span class="string">'videoElement'</span>);</span><br><span class="line">    <span class="keyword">if</span> (flvjs.default.isSupported()) &#123;</span><br><span class="line">      <span class="comment">// 创建flvjs对象</span></span><br><span class="line">      <span class="keyword">this</span>.flvPlayer = flvjs.default.createPlayer(&#123;</span><br><span class="line">        <span class="keyword">type</span>: <span class="string">'flv'</span>,        <span class="comment">// 指定视频类型</span></span><br><span class="line">        isLive: <span class="literal">true</span>,       <span class="comment">// 开启直播</span></span><br><span class="line">        hasAudio: <span class="literal">false</span>,    <span class="comment">// 关闭声音</span></span><br><span class="line">        cors: <span class="literal">true</span>,         <span class="comment">// 开启跨域访问</span></span><br><span class="line">        url: <span class="string">'http://live-play.2inno.cn/xylg/camera6.flv'</span>,   <span class="comment">// 指定流链接</span></span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="comment">// 将flvjs对象和DOM对象绑定</span></span><br><span class="line">      <span class="keyword">this</span>.flvPlayer.attachMediaElement(<span class="keyword">this</span>.player);</span><br><span class="line">      <span class="comment">// 加载视频</span></span><br><span class="line">      <span class="keyword">this</span>.flvPlayer.load();</span><br><span class="line">      <span class="comment">// 播放视频</span></span><br><span class="line">      <span class="keyword">this</span>.flvPlayer.play();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-说明及完善"><a href="#4-说明及完善" class="headerlink" title="4. 说明及完善"></a>4. 说明及完善</h3><p>优势：无需使用flash即可直接在android设备和windows设备上播放直播视频<br>不足：无法在不支持Media Source Extensions的浏览器使用，如safari和腾讯x5服务浏览<br>针对iOS系统下设备，待开发插件来调用原生服务播放直播视频</p>
+<h4 id="4-说明及完善"><a href="#4-说明及完善" class="headerlink" title="4. 说明及完善"></a>4. 说明及完善</h4><p>优势：无需使用flash即可直接在android设备和windows设备上播放直播视频<br>不足：无法在不支持Media Source Extensions的浏览器使用，如safari和腾讯x5服务浏览<br>针对iOS系统下设备，待开发插件来调用原生服务播放直播视频</p>
 <hr>
 <p>使用m3u8文件播放请使用以下方案</p>
 <hr>
-<h3 id="5-使用videogular2实现m3u8监控视频文件播放"><a href="#5-使用videogular2实现m3u8监控视频文件播放" class="headerlink" title="5.  使用videogular2实现m3u8监控视频文件播放"></a>5.  使用videogular2实现m3u8监控视频文件播放</h3><h4 id="1-Videogular2支持hls，需要下载videogular2及hls-js文件-执行如下命令："><a href="#1-Videogular2支持hls，需要下载videogular2及hls-js文件-执行如下命令：" class="headerlink" title="1. Videogular2支持hls，需要下载videogular2及hls.js文件, 执行如下命令："></a>1. Videogular2支持hls，需要下载videogular2及hls.js文件, 执行如下命令：</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install videogular2 –save</span><br><span class="line">npm install <span class="meta">@type</span>/core-js –save-dev</span><br><span class="line">npm install hls.js –save</span><br></pre></td></tr></table></figure>
+<h4 id="5-使用videogular2实现m3u8监控视频文件播放"><a href="#5-使用videogular2实现m3u8监控视频文件播放" class="headerlink" title="5.  使用videogular2实现m3u8监控视频文件播放"></a>5.  使用videogular2实现m3u8监控视频文件播放</h4><h5 id="1-Videogular2支持hls，需要下载videogular2及hls-js文件-执行如下命令："><a href="#1-Videogular2支持hls，需要下载videogular2及hls-js文件-执行如下命令：" class="headerlink" title="1. Videogular2支持hls，需要下载videogular2及hls.js文件, 执行如下命令："></a>1. Videogular2支持hls，需要下载videogular2及hls.js文件, 执行如下命令：</h5><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install videogular2 –save</span><br><span class="line">npm install <span class="meta">@type</span>/core-js –save-dev</span><br><span class="line">npm install hls.js –save</span><br></pre></td></tr></table></figure>
 
-<h4 id="2-将videogular2中的fonts拷贝至assets下，并在index-html引用样式："><a href="#2-将videogular2中的fonts拷贝至assets下，并在index-html引用样式：" class="headerlink" title="2. 将videogular2中的fonts拷贝至assets下，并在index.html引用样式："></a>2. 将videogular2中的fonts拷贝至assets下，并在index.html引用样式：</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"assets/fonts/videogular.css"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="2-将videogular2中的fonts拷贝至assets下，并在index-html引用样式："><a href="#2-将videogular2中的fonts拷贝至assets下，并在index-html引用样式：" class="headerlink" title="2. 将videogular2中的fonts拷贝至assets下，并在index.html引用样式："></a>2. 将videogular2中的fonts拷贝至assets下，并在index.html引用样式：</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"assets/fonts/videogular.css"</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="3-在angular-json中将hls-min-js"><a href="#3-在angular-json中将hls-min-js" class="headerlink" title="3. 在angular.json中将hls.min.js"></a>3. 在angular.json中将hls.min.js</h4><p>文件路径引入：</p>
+<h5 id="3-在angular-json中将hls-min-js"><a href="#3-在angular-json中将hls-min-js" class="headerlink" title="3. 在angular.json中将hls.min.js"></a>3. 在angular.json中将hls.min.js</h5><p>文件路径引入：</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: [</span><br><span class="line">       <span class="string">"node_modules/hls.js/dist/hls.min.js"</span></span><br><span class="line">    ]</span><br></pre></td></tr></table></figure>
 
-<h4 id="4-至此配置已经完成，接着在app-module-ts中引用几个模块："><a href="#4-至此配置已经完成，接着在app-module-ts中引用几个模块：" class="headerlink" title="4. 至此配置已经完成，接着在app.module.ts中引用几个模块："></a>4. 至此配置已经完成，接着在app.module.ts中引用几个模块：</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; VgCoreModule &#125; <span class="keyword">from</span> <span class="string">'videogular2/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; VgControlsModule &#125; <span class="keyword">from</span> <span class="string">'videogular2/controls'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; VgOverlayPlayModule &#125; <span class="keyword">from</span> <span class="string">'videogular2/overlay-play'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; VgBufferingModule &#125; <span class="keyword">from</span> <span class="string">'videogular2/buffering'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">imports: [</span><br><span class="line">    VgCoreModule,</span><br><span class="line">    VgControlsModule,</span><br><span class="line">    VgOverlayPlayModule,</span><br><span class="line">    VgBufferingModule</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
+<h5 id="4-至此配置已经完成，接着在app-module-ts中引用几个模块："><a href="#4-至此配置已经完成，接着在app-module-ts中引用几个模块：" class="headerlink" title="4. 至此配置已经完成，接着在app.module.ts中引用几个模块："></a>4. 至此配置已经完成，接着在app.module.ts中引用几个模块：</h5><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; VgCoreModule &#125; <span class="keyword">from</span> <span class="string">'videogular2/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; VgControlsModule &#125; <span class="keyword">from</span> <span class="string">'videogular2/controls'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; VgOverlayPlayModule &#125; <span class="keyword">from</span> <span class="string">'videogular2/overlay-play'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; VgBufferingModule &#125; <span class="keyword">from</span> <span class="string">'videogular2/buffering'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">imports: [</span><br><span class="line">    VgCoreModule,</span><br><span class="line">    VgControlsModule,</span><br><span class="line">    VgOverlayPlayModule,</span><br><span class="line">    VgBufferingModule</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
 
 <p>播放页面还需引入一下两个模块：</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; VgCoreModule &#125; <span class="keyword">from</span> <span class="string">'videogular2/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; VgBufferingModule &#125; <span class="keyword">from</span> <span class="string">'videogular2/buffering'</span>;</span><br><span class="line">imports: [</span><br><span class="line">    VgCoreModule,</span><br><span class="line">    VgBufferingModule</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
@@ -472,8 +637,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
+                  <a href="/categories/TypeScript/" itemprop="url" rel="index">
+                    <span itemprop="name">TypeScript</span>
                   </a>
                 </span>
 
@@ -511,8 +676,8 @@
       
         
           
-            <h1 id="天气信息获取"><a href="#天气信息获取" class="headerlink" title="天气信息获取"></a><center>天气信息获取</center></h1><h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>根据城市稳定高效的获取准确的实时天气信息，以及日出日落时间。</p>
-<h3 id="分析和方案"><a href="#分析和方案" class="headerlink" title="分析和方案"></a>分析和方案</h3><p>获取天气信息的免费资源站点有很多，比如中国天气网、心知天气、新浪天气等等，但是大部分免费站点存在的问题是：</p>
+            <p>如何根据城市稳定高效的获取准确的实时天气信息，如何获取当前地区的日出日落时间呢？</p>
+<p>获取天气信息的免费资源站点有很多，比如中国天气网、心知天气、新浪天气等等，但是大部分免费站点存在的问题是：</p>
 <ul>
 <li>请求次数限制，一天最多只有几次</li>
 <li>可能会在某个时间请求地址失效</li>
@@ -521,7 +686,7 @@
 </li>
 </ul>
 <p>日出日落时间也可根据以上需求出发选择合适的资源网站获取，考虑到在确定位置及日期下，日出日落时间是确定的，所以采用计算方式获得城市当日的日出日落时间。</p>
-<h3 id="需求实现"><a href="#需求实现" class="headerlink" title="需求实现"></a>需求实现</h3><h5 id="1-获取天气信息"><a href="#1-获取天气信息" class="headerlink" title="1.获取天气信息"></a>1.获取天气信息</h5><p>为了避免web端访问资源地址出现cors即跨域问题，请求采用ajax方式,传入城市ID即可获取，代码如下：</p>
+<h5 id="1-获取天气信息"><a href="#1-获取天气信息" class="headerlink" title="1.获取天气信息"></a>1.获取天气信息</h5><p>为了避免web端访问资源地址出现cors即跨域问题，请求采用ajax方式,传入城市ID即可获取，代码如下：</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取天气信息</span></span><br><span class="line">  getWeatherInfo() &#123;</span><br><span class="line">    <span class="keyword">const</span> that = <span class="keyword">this</span>;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">      <span class="keyword">type</span>: <span class="string">'GET'</span>,</span><br><span class="line">      url: <span class="string">'https://www.tianqiapi.com/api/'</span>,</span><br><span class="line">      data: <span class="string">'version=v1&amp;cityid=101280601'</span>,</span><br><span class="line">      dataType: <span class="string">'JSON'</span>,</span><br><span class="line">      <span class="keyword">async</span>: <span class="literal">false</span>,</span><br><span class="line">      error() &#123;</span><br><span class="line">        alert(<span class="string">'天气数据读取错误！'</span>);</span><br><span class="line">        that.weather.temperature = <span class="string">''</span>;</span><br><span class="line">      &#125;,</span><br><span class="line">      success(res) &#123;</span><br><span class="line">        that.weather.temperature = res.data[<span class="number">0</span>][<span class="string">'tem'</span>];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
 <p>全国城市ID列表查看地址及提取码为：</p>
@@ -622,7 +787,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -633,7 +798,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
